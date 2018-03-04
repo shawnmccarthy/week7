@@ -1,0 +1,231 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: User  App
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /signup:
+    x-swagger-router-controller: user_controller
+    post:
+      description: Posts user to sign-up
+      operationId: signup
+      parameters:
+        - name: user
+          description: User properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UsersResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /signin:
+    x-swagger-router-controller: user_controller
+    post:
+      description: Posts user to sign-up
+      operationId: signin
+      parameters:
+        - name: user
+          description: User properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UserTokenResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /users:
+    # binds swagger app logic to a route
+    x-swagger-router-controller: user_controller
+    get:
+      description: Returns 'Users' to the caller
+      # used as the method name of the controller
+      operationId: getusers
+      security:
+        -  JwtAuth: []
+      parameters:
+        - name: name
+          in: query
+          description: The name of the person to retrive
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UsersResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Insert 'Users'
+      # used as the method name of the controller
+      operationId: insertuser
+      parameters:
+        - name: user
+          description: User properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UserResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /users/{id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user_controller
+    get:
+      description: Returns 'Users' to the caller
+      # used as the method name of the controller
+      operationId: getuser
+      parameters:
+        - name: id
+          in: path
+          description: The id of the person to whom get
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UsersResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Update 'Users'
+      # used as the method name of the controller
+      operationId: updateuser
+      parameters:
+        - name: id
+          in: path
+          description: The name of the person to whom to update
+          required: true
+          type: string
+        - name: user
+          description: User properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UserResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      description: Delete 'Users'
+      # used as the method name of the controller
+      operationId: deleteuser
+      parameters:
+        - name: id
+          in: path
+          description: The name of the person to whom to delete
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/UserResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+# complex objects have schema definitions
+definitions:
+  User:
+    type: object
+    required:
+      - name
+      - username
+      - password
+    properties:
+      name:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+  UsersResponse:
+    required:
+      - name
+    properties:
+      name:
+        type: string
+  UserResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  UserTokenResponse:
+    required:
+      - token
+    properties:
+      token:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+securityDefinitions:
+  JwtAuth:
+    type: apiKey
+    name: Authorization
+    in: header

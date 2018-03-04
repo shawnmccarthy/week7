@@ -1,0 +1,221 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://localhost:10010/'
+  - url: 'https://localhost:10010/'
+info:
+  version: 0.0.1
+  title: User  App
+paths:
+  /signup:
+    x-swagger-router-controller: user_controller
+    post:
+      description: Posts user to sign-up
+      operationId: signup
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+  /signin:
+    x-swagger-router-controller: user_controller
+    post:
+      description: Posts user to sign-up
+      operationId: signin
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTokenResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+  /users:
+    x-swagger-router-controller: user_controller
+    get:
+      description: Returns 'Users' to the caller
+      operationId: getusers
+      security:
+        - JwtAuth: []
+      parameters:
+        - name: name
+          in: query
+          description: The name of the person to retrive
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      description: Insert 'Users'
+      operationId: insertuser
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+  '/users/{id}':
+    x-swagger-router-controller: user_controller
+    get:
+      description: Returns 'Users' to the caller
+      operationId: getuser
+      parameters:
+        - name: id
+          in: path
+          description: The id of the person to whom get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      description: Update 'Users'
+      operationId: updateuser
+      parameters:
+        - name: id
+          in: path
+          description: The name of the person to whom to update
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+    delete:
+      description: Delete 'Users'
+      operationId: deleteuser
+      parameters:
+        - name: id
+          in: path
+          description: The name of the person to whom to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  requestBodies:
+    User:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/User'
+      description: User properties
+      required: true
+  securitySchemes:
+    JwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - username
+        - password
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+    UsersResponse:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    UserResponse:
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    UserTokenResponse:
+      required:
+        - token
+      properties:
+        token:
+          type: string
+    ErrorResponse:
+      required:
+        - message
+      properties:
+        message:
+          type: string

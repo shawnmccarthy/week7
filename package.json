@@ -1,0 +1,31 @@
+{
+  "name": "api-mongo",
+  "version": "0.0.1",
+  "private": "true",
+  "description": "My new Apigee 127 Project",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "swagger-express-mw": "^0.7.0",
+    "bcrypt-nodejs": "0.0.3",
+    "express": "3.x.x",
+    "mongoose": "^4.4.5",
+    "jsonwebtoken": "^8.1.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.1"
+  },
+  "devDependencies": {
+    "should": "4.4.x",
+    "supertest": "0.15.x"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "api": {
+    "name": "api-mongo",
+    "basePath": "/api-mongo",
+    "main": "app.js"
+  }
+}
