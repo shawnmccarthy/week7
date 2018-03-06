@@ -54,6 +54,7 @@ function getuser(req, res) {
     res.json(user);
   });
 }
+
 function getusers(req, res) {
   // variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
 
