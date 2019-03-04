@@ -1,11 +1,18 @@
+var envPath = __dirname + "/../../../.env";
+require('dotenv').config({path:envPath})
 var should = require('should');
 var request = require('supertest');
 var server = require('../../../app');
-require('dotenv').config()
+var User = require('../../../api/controllers/Users');
 
 process.env.A127_ENV = 'test';
 
 describe('controllers', function() {
+    after(function()  { //Before each test we empty the database
+            User.deleteOne({ name: 'Shawn' }, function(err, user) {
+                if (err) throw err;
+            });
+    });
 
   describe('user_controller', function() {
 
