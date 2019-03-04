@@ -10,18 +10,21 @@
   "dependencies": {
     "swagger-express-mw": "^0.7.0",
     "bcrypt-nodejs": "0.0.3",
-    "express": "3.x.x",
     "mongoose": "^4.4.5",
-    "jsonwebtoken": "^8.1.1",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "passport": "^0.4.0",
-    "passport-jwt": "^3.0.1"
+    "passport-http": "^0.3.0",
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
-    "should": "4.4.x",
-    "supertest": "0.15.x"
+    "dotenv": "^6.2.0",
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "swagger project test"
   },
   "api": {
     "name": "api-mongo",
