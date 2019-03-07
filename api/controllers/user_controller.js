@@ -81,7 +81,7 @@ function signin(req, res) {
                 res.json({success: true, token: 'JWT ' + token});
             }
             else {
-                res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
+                res.status(401).send({success: false, msg: 'Authentication failed.'});
             }
         });
 

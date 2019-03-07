@@ -95,6 +95,8 @@ paths:
       description: Insert 'Users'
       # used as the method name of the controller
       operationId: insertuser
+      security:
+        - JwtAuth: []
       parameters:
         - name: user
           description: User properties
@@ -120,6 +122,8 @@ paths:
       description: Returns 'Users' to the caller
       # used as the method name of the controller
       operationId: getuser
+      security:
+        - JwtAuth: []
       parameters:
         - name: id
           in: path
@@ -141,6 +145,8 @@ paths:
       description: Update 'Users'
       # used as the method name of the controller
       operationId: updateuser
+      security:
+        - JwtAuth: []
       parameters:
         - name: id
           in: path
@@ -168,6 +174,8 @@ paths:
       description: Delete 'Users'
       # used as the method name of the controller
       operationId: deleteuser
+      security:
+        - JwtAuth: []
       parameters:
         - name: id
           in: path
